@@ -236,6 +236,20 @@ def randomGame():
 
   for line in board:
     b.append(line)
+
+
+  liste = []
+  for i in range(9):
+    for j in range(9):
+      liste.append((i,j))
+
+
+  korr = rn.sample(liste,80)
+
+  for rad,kol in korr:
+    b[rad][kol] = ' '
+
+
   return b
 
 print('\n\n\tVelkommen til Sudoku\n\n')
