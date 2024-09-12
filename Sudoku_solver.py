@@ -13,6 +13,7 @@ class SudokuDifficulty:
     medium = "medium.txt"
     hard = "hard.txt"
     empty = "empty.txt"
+    very_hard = "very_hard.txt"
 
 
 def print_solution(solution, width=9):
@@ -41,8 +42,8 @@ class SudokuVisualizer:
         """
         pygame.init()
 
-        self.screenHeight = 700
-        self.screenWidth = 600
+        self.screenHeight = 500
+        self.screenWidth = 500
         self.font = pygame.font.Font(None, 30)
         self.board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -284,4 +285,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main(difficulty=SudokuDifficulty.medium)
+    main(difficulty=SudokuDifficulty.very_hard)

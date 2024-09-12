@@ -1,6 +1,5 @@
 from typing import Any
 import random
-import time
 
 
 class CSP:
@@ -109,7 +108,6 @@ class CSP:
                 self.assignments[newVariable] = domain
 
                 if visualizer is not None: # Visualizer specific for the sudoku problem
-                    time.sleep(0.001)
                     visualizer.update_board(self.assignments)
 
                 # Recursively call backtrack
