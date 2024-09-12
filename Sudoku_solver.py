@@ -40,6 +40,9 @@ class SudokuVisualizer:
         Initializes the SudokuVisualizer class.
         """
         pygame.init()
+
+        self.screenHeight = 700
+        self.screenWidth = 600
         self.font = pygame.font.Font(None, 30)
         self.board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -61,7 +64,12 @@ class SudokuVisualizer:
         """
         Draws the Sudoku board on the Pygame screen.
         """
-        
+        padding = 50
+        boxSize = (
+            min(self.screenHeight - 2 * padding, self.screenWidth - 2 * padding) // 9
+        )
+        numberOffset = boxSize // 2 - 10
+        totalLength = 9 * boxSize
 
         self.screen.fill((255, 255, 255))
         for i in range(10):
@@ -70,16 +78,30 @@ class SudokuVisualizer:
             else:
                 thickness = 1
             pygame.draw.line(
-                self.screen, (0, 0, 0), (50 + i * 40, 50), (50 + i * 40, 450), thickness
+                self.screen,
+                (0, 0, 0),
+                (padding + i * boxSize, padding),
+                (padding + i * boxSize, totalLength + padding),
+                thickness,
             )
             pygame.draw.line(
-                self.screen, (0, 0, 0), (50, 50 + i * 40), (450, 50 + i * 40), thickness
+                self.screen,
+                (0, 0, 0),
+                (padding, padding + i * boxSize),
+                (totalLength + padding, padding + i * boxSize),
+                thickness,
             )
         for i in range(9):
             for j in range(9):
                 if self.board[i][j] != 0:
                     value = self.font.render(str(self.board[i][j]), True, (0, 0, 0))
-                    self.screen.blit(value, (j * 40 + 60, i * 40 + 60))
+                    self.screen.blit(
+                        value,
+                        (
+                            padding + j * boxSize + numberOffset,
+                            padding + i * boxSize + numberOffset,
+                        ),
+                    )
 
         pygame.display.flip()
 
@@ -87,7 +109,7 @@ class SudokuVisualizer:
         """
         Runs the Pygame event loop for the Sudoku visualizer.
         """
-        self.screen = pygame.display.set_mode((500, 500))
+        self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
         self.clock = pygame.time.Clock()
         while self.running:
             self.clock.tick(60)
@@ -111,14 +133,6 @@ class SudokuVisualizer:
             for key, value in board.items():
                 row, col = int(key[1]) - 1, int(key[2]) - 1
                 self.board[row][col] = value
-
-    def add_random_number(self):
-        """
-        Adds a random number to the Sudoku board.
-        """
-        row, col = random.randint(0, 8), random.randint(0, 8)
-        value = random.randint(1, 9)
-        self.update_board(row, col, value)
 
     def wipe_board(self):
         """
