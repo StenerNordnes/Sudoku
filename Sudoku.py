@@ -1,7 +1,7 @@
 import copy as c
 import random as rn
 
-testBrett = [
+testBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],  # 1
     [0, 0, 0, 0, 0, 0, 0, 0, 0],  # 2
     [0, 0, 0, 0, 0, 0, 0, 0, 0],  # 3
@@ -12,7 +12,7 @@ testBrett = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],  # 8
     [0, 0, 0, 0, 0, 0, 0, 0, 0],  # 9
 ]
-debugBrett = [
+debugBoard = [
     "003020600\n",
     "900305001\n",
     "001806400\n",
@@ -23,6 +23,8 @@ debugBrett = [
     "800203009\n",
     "005010300\n",
 ]
+
+gamesFolder = "games/"
 
 
 def make_board(b):
@@ -128,7 +130,7 @@ def lesSpillFil(game):
         g = randomGame()
         return g, g
     else:
-        game = game + ".txt"
+        game = gamesFolder + game + ".txt"
 
         with open(game, "r") as fil:
             x = fil.readlines()
@@ -226,7 +228,7 @@ def saveGame(b):
 
         game += "".join(b[i]) + "\n"
 
-    with open("saved.txt", "w") as f:
+    with open(gamesFolder + "saved.txt", "w") as f:
         f.write(game)
 
 

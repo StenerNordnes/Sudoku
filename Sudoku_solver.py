@@ -7,13 +7,15 @@ import pygame
 
 from csp import CSP, alldiff
 
+gamesFolder = "games/"
+
 
 class SudokuDifficulty:
-    easy = "easy.txt"
-    medium = "medium.txt"
-    hard = "hard.txt"
-    empty = "empty.txt"
-    very_hard = "very_hard.txt"
+    easy = gamesFolder + "easy.txt"
+    medium = gamesFolder + "medium.txt"
+    hard = gamesFolder + "hard.txt"
+    empty = gamesFolder + "empty.txt"
+    very_hard = gamesFolder + "very_hard.txt"
 
 
 def print_solution(solution, width=9):
@@ -41,6 +43,8 @@ class SudokuVisualizer:
         Initializes the SudokuVisualizer class.
         """
         pygame.init()
+        pygame.display.set_caption("Sudoku Solver")
+        pygame.font.init()
 
         self.screenHeight = 500
         self.screenWidth = 500
