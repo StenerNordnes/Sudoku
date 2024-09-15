@@ -109,8 +109,9 @@ class CSP:
                 self.assignments[newVariable] = domain
 
                 if visualizer is not None:  # Visualizer specific for the sudoku problem
-                    # time.sleep(0.01)
-                    visualizer.update_board(self.assignments)
+                    visualizer.update_board(
+                        self.assignments, self.numberOfBacktracks, self.numberOfFailures
+                    )
 
                 # Recursively call backtrack
                 res = backtrack()

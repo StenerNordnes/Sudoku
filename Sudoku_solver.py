@@ -1,4 +1,3 @@
-import random
 import threading
 import time
 from time import perf_counter
@@ -48,7 +47,9 @@ class SudokuVisualizer:
 
         self.screenHeight = 500
         self.screenWidth = 500
-        self.font = pygame.font.Font(None, 30)
+        self.numberOfRecursions = 0
+        self.numberOfFailures = 0
+        self.font = pygame.font.Font(None, 28)
         self.board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -108,6 +109,11 @@ class SudokuVisualizer:
                         ),
                     )
 
+        text = self.font.render(
+            f"Recursions: {self.numberOfRecursions}", True, (0, 0, 0)
+        )
+        self.screen.blit(text, (padding, totalLength + padding + 10))
+
         pygame.display.flip()
 
     def run(self):
@@ -126,7 +132,9 @@ class SudokuVisualizer:
             pygame.display.flip()
         pygame.quit()
 
-    def update_board(self, board: dict[str, str]):
+    def update_board(
+        self, board: dict[str, str], totalRecursions: int = 0, totalFailures: int = 0
+    ):
         """
         Updates the Sudoku board with the given values.
 
@@ -134,6 +142,8 @@ class SudokuVisualizer:
             board (dict[str, str]): A dictionary representing the Sudoku board.
         """
         with self.lock:
+            self.numberOfRecursions = totalRecursions
+            self.numberOfFailures = totalFailures
             self.wipe_board()
             for key, value in board.items():
                 row, col = int(key[1]) - 1, int(key[2]) - 1
