@@ -4,6 +4,26 @@ import time
 
 
 class CSP:
+    """A class representing a Constraint Satisfaction Problem (CSP)
+
+    Attributes
+    ----------
+    variables : list[str]
+        The variables for the CSP
+    domains : dict[str, set]
+        The domains of the variables, i.e. the possible values each variable can take
+    edges : list[tuple[str, str]]
+        Pairs of variables that must not be assigned the same value
+    assignments : dict[str, Any]
+        The current assignments of the variables
+    binary_constraints : dict[tuple[str, str], set]
+        The binary constraints of the CSP
+    numberOfFailures : int
+        The number of failures during the search
+    numberOfBacktracks : int
+        The number of backtracks during the search
+    """
+
     def __init__(
         self,
         variables: list[str],
@@ -17,7 +37,7 @@ class CSP:
         variables : list[str]
             The variables for the CSP
         domains : dict[str, set]
-            The domains of the variables
+            The domains of the variables, i.e. the possible values each variable can take
         edges : list[tuple[str, str]]
             Pairs of variables that must not be assigned the same value
         """
