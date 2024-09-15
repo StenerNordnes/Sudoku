@@ -241,6 +241,19 @@ def run_headless(csp: CSP, width=9, domains=None, edges=None):
 def main(
     headless=False, difficulty: SudokuDifficulty = SudokuDifficulty.hard, boardPath=None
 ) -> dict[str, str]:
+    """
+    Solves a Sudoku board using Constraint Satisfaction Problem (CSP) approach.
+    -----------------------------------------------------------------------
+    Args:
+        headless: A boolean value indicating whether to run the solver in headless mode.
+        difficulty: The difficulty level of the Sudoku board to solve.
+        boardPath: The path to the Sudoku board file.
+    Returns:
+        dict[str, str]: A dictionary representing the solved Sudoku board.
+    Raises:
+        None
+    """
+
     boardToSolve = difficulty
     grid = ""
     with open(boardPath or f"./{boardToSolve}") as f:
@@ -249,6 +262,7 @@ def main(
     width = 9
     box_width = 3
 
+    # Creates the domains for the Sudoku board
     domains = {}
     for row in range(width):
         for col in range(width):
@@ -257,6 +271,7 @@ def main(
             else:
                 domains[f"X{row+1}{col+1}"] = {int(grid[row][col])}
 
+    # Create the edges for the Sudoku board
     edges = []
     for row in range(width):
         edges += alldiff([f"X{row+1}{col+1}" for col in range(width)])
@@ -272,7 +287,7 @@ def main(
                 ]
             )
 
-        # Create a CSP object with the variables, domains, and edges
+    # Create a CSP object with the variables, domains, and edges
     csp = CSP(
         variables=[f"X{row+1}{col+1}" for row in range(width) for col in range(width)],
         domains=domains,
@@ -292,7 +307,6 @@ def main(
     )
     update_thread.start()
     update_thread.join()
-
     finsihedBoard = visualizer.get_board()
     visualizer.end()
     return finsihedBoard
