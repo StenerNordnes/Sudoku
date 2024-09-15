@@ -13,8 +13,8 @@ This project provides a Sudoku solver and visualizer using Python and Pygame. It
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/StenerNordnes/Sudoku.git
-   cd sudoku-solver
+   git clone https://github.com/StenerNordnes/Sudoku-Solver.git
+   cd Sudoku-Solver
    ```
 
 2. Create a virtual environment (optional but recommended):
