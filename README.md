@@ -21,15 +21,23 @@ This project provides a Sudoku solver and visualizer using Python and Pygame. It
 
    ```sh
    python -m venv .venv
-
-   # Activate the virtual environment (Linux/macOS)
-   source venv/bin/activate
-
-   # Activate the virtual environment (Windows)
-   .venv\Scripts\activate
    ```
 
-3. Install the required dependencies:
+3. Activate the virtual environment:
+
+   - **Windows**:
+
+     ```sh
+     .venv\Scripts\activate
+     ```
+
+   - **macOS and Linux**:
+
+     ```sh
+     source .venv/bin/activate
+     ```
+
+4. Install the required dependencies:
 
    ```sh
    pip install -r requirements.txt
@@ -51,7 +59,7 @@ Here is an example of the visualizer in action:
 
 <img src="./assets/solve_process.gif" alt="Sudoku Visualizer" width="300" height="300">
 
-## Solving Process Using the CSP Class
+## Solving Process Using CSP
 
 The `CSP` (_Constraint Satisfaction Problem_) class is used to solve the Sudoku puzzle using a backtracking algorithm. Here is an overview of the solving process:
 
@@ -65,3 +73,48 @@ The `CSP` (_Constraint Satisfaction Problem_) class is used to solve the Sudoku 
 8. If the recursive call returns a valid solution, the solution is returned.
 9. If the recursive call returns `None`, the value is removed from the assignment and the next value is tried.
 10. If no value in the domain results in a valid solution, the algorithm backtracks by returning `None`.
+
+### The CSP Class
+
+The `CSP` class is defined in the `csp.py` file and can be used to solve any CSP problem not only Sudoku. The class provides the following methods:
+
+- `backtracking_search`: The main method to solve the CSP problem using backtracking.
+- `select_unassigned`: Selects an unassigned variable (i.e. an empty cell in Sudoku).
+- `isConsistent`: Checks if the current assignment is consistent with the provided edges.
+- `backtrack`: Recursive method to solve the CSP problem.
+- `ac_3`: The AC-3 (_Arc Consistency 3_) algorithm to reduce the domain of variables.
+- `isAllAssigned`: Checks if all variables are assigned.
+
+As parameters, the `CSP` class takes the following:
+
+- `variables`: A list of variables (e.g. cells in Sudoku).
+- `domains`: A set of possible values for each variable.
+- `edges`: A list of edges (i.e. constraints) between variables, that specify which variables that cannot have the same value.
+
+#### Arc Consistency 3 (AC-3)
+
+The `ac_3` method is used to reduce the domain of variables by enforcing arc consistency. The method iterates over all edges and removes values from the domain that are inconsistent with the edge. If the domain of a variable is reduced, the method returns `True` to indicate that the domain has been changed.
+This is run prior to the backtracking search to reduce the search space. It uses the already assigned variables to reduce the domain of the unassigned variables.
+
+```python
+def ac_3(self) -> bool:
+   for edge in self.edges:
+      domain1 = self.domains[edge[0]]  # Domain of variable 1
+      domain2 = self.domains[edge[1]]  # Domain of variable 2
+
+      newDomain1 = set()
+      newDomain2 = set()
+
+      # Iterate over all possible combinations of values from domain1 and domain2
+      for value1 in domain1:
+            for value2 in domain2:
+               # Check if the values are different
+               if value1 != value2:
+                  # Add the values to the new domains
+                  newDomain1.add(value1)
+                  newDomain2.add(value2)
+
+      # Update the domains with the new values
+      self.domains[edge[0]] = newDomain1
+      self.domains[edge[1]] = newDomain2
+```
